@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>spring boot参数配置</comment>
+	
+	<!-- 上传文件大小限制设置 -->
+	<entry key="spring.servlet.multipart.max-file-size">450MB</entry>
+	<entry key="spring.servlet.multipart.max-request-size">450MB</entry>
+
+	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
+	<entry key="logging.file">/tmp/testlogs/staticSourceAdmin/staticSourceAdmin.log</entry>
+	
+	<!-- jackson时间格式设置 -->
+	<entry key="spring.jackson.date-format">yyyy-MM-dd HH:mm:ss</entry>
+	<entry key="spring.jackson.time-zone">GMT+8</entry>
+</properties>
