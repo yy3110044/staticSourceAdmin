@@ -51,7 +51,7 @@ public class FileDownloadComponent {
 			taskMap.put(sourceUrl, dr);
 			return new ResponseObject(100, "已添加到下载队列中");
 		} else {
-			return new ResponseObject(101, "已在下载队列中，不要重复添加");
+			return new ResponseObject(101, "已在下载队列中，不要重复添加", dr);
 		}
 	}
 	
