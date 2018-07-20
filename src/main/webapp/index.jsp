@@ -34,11 +34,5 @@ $(document).ready(function(){
 <body>
 <div><input id="uploadInput" type="file" name="file">&nbsp;<span id="progressallSpan"></span></div>
 <div id="resultDiv"></div>
-<!--
-<form action="upload" method="post" enctype="multipart/form-data">
-<input type="file" name="file"><br>
-<input type="submit" value="上传">
-</form>
--->
 </body>
 </html>

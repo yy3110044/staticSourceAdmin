@@ -9,9 +9,12 @@
 
 	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
 	<entry key="logging.file">/tmp/testlogs/staticSourceAdmin/staticSourceAdmin.log</entry>
-	<entry key="logging.level.com.yy.staticSourceAdmin">INFO</entry>
+	<entry key="logging.level.com.yy.staticSourceAdmin">DEBUG</entry>
 	
 	<!-- jackson时间格式设置 -->
 	<entry key="spring.jackson.date-format">yyyy-MM-dd HH:mm:ss</entry>
 	<entry key="spring.jackson.time-zone">GMT+8</entry>
+	
+	<entry key="download.connectionTimeout">30000</entry>
+	<entry key="download.readTimeout">30000</entry>
 </properties>
