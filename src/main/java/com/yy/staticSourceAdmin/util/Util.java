@@ -1,17 +1,22 @@
 package com.yy.staticSourceAdmin.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -136,5 +141,45 @@ public class Util {
 			throw new RuntimeException(e);
 		}
 		return map;
+	}
+
+	/**
+	 * 保存上传文件
+	 * @param file
+	 * @return
+	 */
+	public static ResponseObject saveFile(MultipartFile file, HttpServletRequest req) {
+		if(file != null && file.getSize() > 0) {
+			CreateFolderResult cfr = getBaseFolder(req.getServletContext());
+			
+			String originalFileName = file.getOriginalFilename(); //文件原始名称
+			int index = originalFileName.lastIndexOf(".");
+			String newFileName = UUID.randomUUID().toString() + (index < 0 ? "" : originalFileName.substring(index));
+			File newFile = new File(cfr.getBaseFolder(), newFileName);
+
+			try {
+				file.transferTo(newFile);
+				logger.debug(newFile.getPath());
+				return new ResponseObject(100, "文件上传成功", new MyMap().set("serverUrl", getBasePath(req) + cfr.getBaseUrl() + newFileName));
+			} catch (IllegalStateException | IOException e) {
+				logger.error(e.toString());
+				return new ResponseObject(102, "文件上传失败");
+			}
+		} else {
+			return new ResponseObject(101, "上传文件为空");
+		}
+	}
+	
+	public static CreateFolderResult getBaseFolder(ServletContext sc) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String dateStr = sdf.format(new Date());
+		
+		File baseFolder = new File(sc.getRealPath("/"), dateStr);
+		if(!baseFolder.exists()) {
+			baseFolder.mkdirs();
+		}
+		
+		String baseUrl = dateStr + "/";
+		return new CreateFolderResult(baseFolder, baseUrl);
 	}
 }
