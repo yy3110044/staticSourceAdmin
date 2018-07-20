@@ -1,9 +1,15 @@
 package com.yy.staticSourceAdmin.util;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -11,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Map.Entry;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
@@ -184,5 +191,55 @@ public class Util {
 		
 		String baseUrl = dateStr + "/";
 		return new CreateFolderResult(baseFolder, baseUrl);
+	}
+	
+	public static String requestPost(String urlStr, Map<String, Object> params) {
+		BufferedWriter bw = null;
+		BufferedReader br = null;
+		StringBuilder result = new StringBuilder();
+
+		try {
+			URL url = new URL(urlStr);
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Charset", "UTF-8");
+			conn.setRequestProperty("contentType", "application/x-www-form-urlencoded");
+			
+			if(params != null && params.size() > 0) {
+				bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+				StringBuilder sb = new StringBuilder();
+				int i = 0;
+				for(Entry<String, Object> entry : params.entrySet()) {
+					sb.append(entry.getKey()).append('=').append(entry.getValue());
+					if(++i < params.size()) {
+						sb.append('&');
+					}
+				}
+				bw.write(sb.toString());
+				bw.flush();
+			}
+			
+			if(conn.getResponseCode() == 200) {
+				br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+				String str = null;
+				while((str = br.readLine()) != null) {
+					result.append(str);
+				}
+			} else {
+				logger.warn("请求错误：" + url + "，代码：" + conn.getResponseCode());
+			}
+		} catch (IOException e) {
+			logger.error(e.toString());
+		} finally {
+			try {
+				if(bw != null) bw.close();
+				if(br != null) br.close();
+			} catch (IOException e) {
+				logger.error(e.toString());
+			}
+		}
+		return result.toString();
 	}
 }

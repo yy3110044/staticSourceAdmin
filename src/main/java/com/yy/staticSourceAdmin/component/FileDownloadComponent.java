@@ -2,7 +2,6 @@ package com.yy.staticSourceAdmin.component;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.yy.staticSourceAdmin.util.CreateFolderResult;
+import com.yy.staticSourceAdmin.util.MyMap;
 import com.yy.staticSourceAdmin.util.ResponseObject;
 import com.yy.staticSourceAdmin.util.Util;
 
@@ -40,12 +40,13 @@ public class FileDownloadComponent {
 	 * 把一个url添加进下载队列
 	 * @param url
 	 */
-	public ResponseObject addDownloadQueue(String sourceUrl, HttpServletRequest req) {
+	public ResponseObject addDownloadQueue(String sourceUrl, String notifyUrl, HttpServletRequest req) {
 		DownloadResult dr = taskMap.get(sourceUrl);
 		if(dr == null) {
 			dr = new DownloadResult();
 			dr.setSourceUrl(sourceUrl);
 			dr.setDownloadStatus(DownloadStatus.准备中);
+			dr.setNotifyUrl(notifyUrl);
 			service.execute(new DownloadRunnable(dr, Util.getBaseFolder(req.getServletContext()), Util.getBasePath(req)));
 			taskMap.put(sourceUrl, dr);
 			return new ResponseObject(100, "已添加到下载队列中");
@@ -112,17 +113,19 @@ public class FileDownloadComponent {
 				logger.error(e.toString());
 				dr.setDownloadStatus(DownloadStatus.未完成);
 			}
+			if(!Util.empty(dr.getNotifyUrl())) { //通知
+				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("filePath", dr.getFilePath()).set("serverUrl", dr.getServerUrl()));
+			}
 		}
 	}
 	
 	//下载结果
-	public class DownloadResult implements Serializable {
-		private static final long serialVersionUID = -6944857049392641003L;
-
+	public class DownloadResult {
 		private String sourceUrl;
 		private DownloadStatus downloadStatus;
 		private String filePath;
 		private String serverUrl;
+		private String notifyUrl;
 		public String getSourceUrl() {
 			return sourceUrl;
 		}
@@ -146,6 +149,12 @@ public class FileDownloadComponent {
 		}
 		public void setServerUrl(String serverUrl) {
 			this.serverUrl = serverUrl;
+		}
+		public String getNotifyUrl() {
+			return notifyUrl;
+		}
+		public void setNotifyUrl(String notifyUrl) {
+			this.notifyUrl = notifyUrl;
 		}
 	}
 	
