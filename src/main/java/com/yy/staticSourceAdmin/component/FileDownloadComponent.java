@@ -107,14 +107,13 @@ public class FileDownloadComponent {
 			try {
 				FileUtils.copyURLToFile(new URL(dr.getSourceUrl()), newFile, connectionTimeout, readTimeout);
 				dr.setDownloadStatus(DownloadStatus.已完成);
-				dr.setFilePath(newFile.getPath());
 				dr.setServerUrl(basePath + cfr.getBaseUrl() + newFileName);
 			} catch (IOException e) {
 				logger.error(e.toString());
 				dr.setDownloadStatus(DownloadStatus.未完成);
 			}
 			if(!Util.empty(dr.getNotifyUrl())) { //通知
-				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("filePath", dr.getFilePath()).set("serverUrl", dr.getServerUrl()));
+				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("serverUrl", dr.getServerUrl()));
 			}
 		}
 	}
@@ -123,7 +122,6 @@ public class FileDownloadComponent {
 	public class DownloadResult {
 		private String sourceUrl;
 		private DownloadStatus downloadStatus;
-		private String filePath;
 		private String serverUrl;
 		private String notifyUrl;
 		public String getSourceUrl() {
@@ -135,17 +133,11 @@ public class FileDownloadComponent {
 		public DownloadStatus getDownloadStatus() {
 			return downloadStatus;
 		}
-		public String getFilePath() {
-			return filePath;
-		}
 		public String getServerUrl() {
 			return serverUrl;
 		}
 		public void setDownloadStatus(DownloadStatus downloadStatus) {
 			this.downloadStatus = downloadStatus;
-		}
-		public void setFilePath(String filePath) {
-			this.filePath = filePath;
 		}
 		public void setServerUrl(String serverUrl) {
 			this.serverUrl = serverUrl;
