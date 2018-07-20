@@ -34,5 +34,6 @@ $(document).ready(function(){
 <body>
 <div><input id="uploadInput" type="file" name="file">&nbsp;<span id="progressallSpan"></span></div>
 <div id="resultDiv"></div>
+<div><a href="downloadQueue.jsp" target="_blank">执行一个下载任务</a></div>
 </body>
 </html>

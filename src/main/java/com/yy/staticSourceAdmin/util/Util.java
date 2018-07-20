@@ -108,7 +108,10 @@ public class Util {
 	 * @return
 	 */
 	public static String getSuffix(String str) {
-		str = str.substring(str.lastIndexOf('/'));
+		int i = str.lastIndexOf('/');
+		if(i >= 0) {
+			str = str.substring(i);
+		}
 
 		int paramStrIndex = str.indexOf('?'); //参数字符串首字索引
 		if(paramStrIndex >= 0) { //没有参数字符串

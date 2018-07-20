@@ -46,7 +46,7 @@ public class FileDownloadComponent {
 			dr = new DownloadResult();
 			dr.setSourceUrl(sourceUrl);
 			dr.setDownloadStatus(DownloadStatus.准备中);
-			service.execute(new DownloadRunnable(dr, req));
+			service.execute(new DownloadRunnable(dr, Util.getBaseFolder(req.getServletContext()), Util.getBasePath(req)));
 			taskMap.put(sourceUrl, dr);
 			return new ResponseObject(100, "已添加到下载队列中");
 		} else {
@@ -91,14 +91,15 @@ public class FileDownloadComponent {
 	//下载线程执行类
 	private class DownloadRunnable implements Runnable {
 		private DownloadResult dr;
-		private HttpServletRequest req;
-		DownloadRunnable(DownloadResult dr, HttpServletRequest req) {
+		private CreateFolderResult cfr;
+		private String basePath;
+		DownloadRunnable(DownloadResult dr, CreateFolderResult cfr, String basePath) {
 			this.dr = dr;
-			this.req = req;
+			this.cfr = cfr;
+			this.basePath = basePath;
 		}
 		@Override
 		public void run() {
-			CreateFolderResult cfr = Util.getBaseFolder(req.getServletContext());
 			String newFileName = UUID.randomUUID().toString() + Util.getSuffix(dr.getSourceUrl());
 			File newFile = new File(cfr.getBaseFolder(), newFileName);
 			dr.setDownloadStatus(DownloadStatus.下载中);
@@ -106,7 +107,7 @@ public class FileDownloadComponent {
 				FileUtils.copyURLToFile(new URL(dr.getSourceUrl()), newFile, connectionTimeout, readTimeout);
 				dr.setDownloadStatus(DownloadStatus.已完成);
 				dr.setFilePath(newFile.getPath());
-				dr.setServerUrl(Util.getBasePath(req) + cfr.getBaseUrl() + newFileName);
+				dr.setServerUrl(basePath + cfr.getBaseUrl() + newFileName);
 			} catch (IOException e) {
 				logger.error(e.toString());
 				dr.setDownloadStatus(DownloadStatus.未完成);
