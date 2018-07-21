@@ -204,6 +204,8 @@ public class Util {
 			conn.setRequestMethod("POST");
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
+			conn.setReadTimeout(10000);
+			conn.setConnectTimeout(10000);
 			conn.setRequestProperty("Charset", "UTF-8");
 			conn.setRequestProperty("contentType", "application/x-www-form-urlencoded");
 			
