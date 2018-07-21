@@ -113,7 +113,7 @@ public class FileDownloadComponent {
 				dr.setDownloadStatus(DownloadStatus.未完成);
 			}
 			if(!Util.empty(dr.getNotifyUrl())) { //通知
-				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("serverUrl", dr.getServerUrl()));
+				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("serverUrl", dr.getServerUrl()).set("sourceUrl", dr.getSourceUrl()));
 			}
 		}
 	}
