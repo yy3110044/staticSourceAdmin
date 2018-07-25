@@ -8,7 +8,7 @@
 	<entry key="spring.servlet.multipart.max-request-size">1024MB</entry>
 
 	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
-	<entry key="logging.file">logs/staticSourceAdmin/staticSourceAdmin.log</entry>
+	<entry key="logging.file">/tmp/logs/staticSourceAdmin/staticSourceAdmin.log</entry>
 	<entry key="logging.level.com.yy.staticSourceAdmin">DEBUG</entry>
 	
 	<!-- jackson时间格式设置 -->
