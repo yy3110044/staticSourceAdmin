@@ -37,7 +37,7 @@ public class FileController {
 	 */
 	@RequestMapping("/fileDownload")
 	public ResponseObject fileDownload(@RequestParam String sourceUrl, String notifyUrl, HttpServletRequest req) {
-		return fd.addDownloadQueue(sourceUrl, notifyUrl, req);
+		return fd.addDownloadQueue(sourceUrl.trim(), notifyUrl == null ? null : notifyUrl.trim(), req);
 	}
 	
 	/**
