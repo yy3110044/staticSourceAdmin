@@ -2,6 +2,7 @@ package com.yy.staticSourceAdmin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import com.yy.staticSourceAdmin.component.FileDownloadComponent.DownloadResult;
 import com.yy.staticSourceAdmin.util.ResponseObject;
 import com.yy.staticSourceAdmin.util.Util;
 
+@CrossOrigin
 @RestController
 @RequestMapping(method=RequestMethod.POST)
 public class FileController {
