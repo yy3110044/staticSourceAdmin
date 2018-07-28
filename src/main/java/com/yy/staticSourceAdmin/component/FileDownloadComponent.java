@@ -111,6 +111,7 @@ public class FileDownloadComponent {
 			} catch (IOException e) {
 				logger.error(e.toString());
 				dr.setDownloadStatus(DownloadStatus.未完成);
+				taskMap.remove(dr.getSourceUrl());
 			}
 			if(!Util.empty(dr.getNotifyUrl())) { //通知
 				Util.requestPost(dr.getNotifyUrl(), new MyMap().set("downloadStatus", dr.getDownloadStatus()).set("serverUrl", dr.getServerUrl()).set("sourceUrl", dr.getSourceUrl()));
