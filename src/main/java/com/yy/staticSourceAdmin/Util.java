@@ -17,6 +17,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class Util {
 	private Util() {}
 	
@@ -87,6 +90,11 @@ public class Util {
 		} else {
 			return str.substring(index);
 		}
+	}
+	
+	private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd  HH:mm:ss").create();
+	public static String objectToJson(Object o) {
+		return gson.toJson(o);
 	}
 	
 	public static String requestPost(String urlStr, Map<String, Object> params) {

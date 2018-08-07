@@ -22,7 +22,7 @@ public class FileDownloadUtil {
 	static {
 		fileDownloadUtil = new FileDownloadUtil();
 	}
-	public FileDownloadUtil getInstance() {
+	public static FileDownloadUtil getInstance() {
 		return fileDownloadUtil;
 	}
 

@@ -1,7 +1,7 @@
 package com.yy.staticSourceAdmin;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class FileUploadServlet extends HttpServlet {
 	}
 
 	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		//是否是文件上传
 		if(ServletFileUpload.isMultipartContent(req)) {
 			List<FileItem> fileItems = null;
@@ -44,7 +44,8 @@ public class FileUploadServlet extends HttpServlet {
 						resultList.add(Util.saveFile(fileItem, req));
 					}
 				}
-				
+				resp.setContentType("application/json;charset=utf-8");
+				resp.getWriter().write(Util.objectToJson(resultList));
 			}
 		}
 	}
