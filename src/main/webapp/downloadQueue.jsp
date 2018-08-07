@@ -21,9 +21,10 @@ var downloadSource = function(){
 	$.ajax({
 		type : "POST",
 		cache : false,
-		url : "fileDownload",
+		url : "fileServlet",
 		dataType : "json",
 		data : {
+			"action" : "fileDownload",
 			"sourceUrl" : sourceUrl
 		},
 		success : function(data) {
@@ -40,8 +41,11 @@ var listAllDownload = function(){
 	$.ajax({
         type : "POST",
         cache : false,
-        url : "getAllDownload",
+        url : "fileServlet",
         dataType : "json",
+        data : {
+        	"action" : "getAllDownload"
+        },
         success : function(data) {
             if(data.code == 100) {
             	var list = data.result;

@@ -20,11 +20,13 @@ $(document).ready(function(){
 		    $("#progressallSpan").html(rate + "%");
 		},
 		done : function(e, data) {
-			if(data.result.code == 100) {
-				$("#progressallSpan").html(data.result.msg);
-				$("#resultDiv").html(data.result.msg + "：" + data.result.result.serverUrl);
+			var results = data.result;
+			var result = results[0];
+			if(result.code == 100) {
+				$("#progressallSpan").html(result.msg);
+				$("#resultDiv").html(result.msg + "：" + result.result.serverUrl);
 			} else {
-			    $("#resultDiv").html(data.result.msg);
+			    $("#resultDiv").html(result.msg);
 			}
 		}
 	});
