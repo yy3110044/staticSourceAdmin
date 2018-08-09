@@ -81,7 +81,7 @@ public class FileDownloadUtil {
 	}
 	
 	public void shutdown() {
-		service.shutdown();
+		service.shutdownNow();
 	}
 	
 	//下载线程执行类
