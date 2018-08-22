@@ -16,9 +16,6 @@ public class RootFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse httpResp = (HttpServletResponse)response;
 		httpResp.setHeader("Access-Control-Allow-Origin", "*");
-		httpResp.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
-		httpResp.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type");
-		httpResp.setHeader("Access-Control-Allow-Credentials", "true");
 		chain.doFilter(request, response);
 	}
 }
