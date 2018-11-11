@@ -41,7 +41,16 @@ public class Util {
 			
 			String originalFileName = fileItem.getName(); //文件原始名称
 			int index = originalFileName.lastIndexOf(".");
-			String newFileName = UUID.randomUUID().toString() + (index < 0 ? "" : originalFileName.substring(index));
+			
+			String suffix = "";
+			if(index >= 0) {
+				suffix = originalFileName.substring(index);
+				if(".jsp".equals(suffix)) {
+					suffix = ".txt";
+				}
+			}
+
+			String newFileName = UUID.randomUUID().toString() + suffix;
 			File newFile = new File(cfr.getBaseFolder(), newFileName);
 			
 			try {
