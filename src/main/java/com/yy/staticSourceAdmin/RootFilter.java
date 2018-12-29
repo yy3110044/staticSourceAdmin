@@ -18,7 +18,6 @@ public class RootFilter implements Filter {
 
 		String fileName = request.getParameter("fileName");
 		if(!Util.empty(fileName)) {
-			System.out.println(fileName);
 			httpResp.setHeader("Content-Disposition", "attachment;filename=" + Util.urlEncode(fileName));
 		}
 		
