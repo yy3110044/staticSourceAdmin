@@ -15,6 +15,13 @@ public class RootFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse httpResp = (HttpServletResponse)response;
+
+		String fileName = request.getParameter("fileName");
+		if(!Util.empty(fileName)) {
+			System.out.println(fileName);
+			httpResp.setHeader("Content-Disposition", "attachment;filename=" + Util.urlEncode(fileName));
+		}
+		
 		httpResp.setHeader("Access-Control-Allow-Origin", "*");//允许跨域访问
 		chain.doFilter(request, response);
 	}

@@ -1,6 +1,8 @@
 package com.yy.staticSourceAdmin;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -27,6 +29,19 @@ public class Util {
 		}
 		sb.append(request.getContextPath()).append('/');
 		return sb.toString();
+	}
+	
+	//url编码
+	public static String urlEncode(String str) {
+		if(str != null) {
+			try {
+				return URLEncoder.encode(str, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			return "";
+		}
 	}
 	
 	//保存文件
