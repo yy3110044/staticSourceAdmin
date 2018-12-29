@@ -21,7 +21,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-			<version>4.0.0</version>
+			<version>4.0.1</version>
 		</dependency>
 		
 		<dependency>
@@ -33,7 +33,7 @@
         <dependency>
         	<groupId>commons-fileupload</groupId>
         	<artifactId>commons-fileupload</artifactId>
-        	<version>1.3.3</version>
+        	<version>1.4</version>
         </dependency>
         
         <!-- 解析json用的 -->

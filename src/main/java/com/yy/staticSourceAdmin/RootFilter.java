@@ -15,7 +15,7 @@ public class RootFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletResponse httpResp = (HttpServletResponse)response;
-		httpResp.setHeader("Access-Control-Allow-Origin", "*");
+		httpResp.setHeader("Access-Control-Allow-Origin", "*");//允许跨域访问
 		chain.doFilter(request, response);
 	}
 }

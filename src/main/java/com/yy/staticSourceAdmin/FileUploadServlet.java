@@ -40,7 +40,7 @@ public class FileUploadServlet extends HttpServlet {
 			if(fileItems != null) {
 				List<ResponseObject> resultList = new ArrayList<ResponseObject>();
 				for(FileItem fileItem : fileItems) {
-					if(!fileItem.isFormField()) {
+					if(!fileItem.isFormField()) { //是一个上传文件
 						resultList.add(Util.saveFile(fileItem, req));
 					}
 				}
