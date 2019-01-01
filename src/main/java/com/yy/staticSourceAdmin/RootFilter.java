@@ -18,7 +18,7 @@ public class RootFilter implements Filter {
 
 		String fileName = request.getParameter("fileName");
 		if(!Util.empty(fileName)) {
-			httpResp.setHeader("Content-Disposition", "attachment;filename=" + Util.urlEncode(fileName));
+			httpResp.setHeader("Content-Disposition", "attachment;filename=" + Util.urlEncode(fileName.trim()));
 		}
 		
 		httpResp.setHeader("Access-Control-Allow-Origin", "*");//允许跨域访问
